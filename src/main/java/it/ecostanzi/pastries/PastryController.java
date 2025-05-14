@@ -1,5 +1,7 @@
 package it.ecostanzi.pastries;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
@@ -10,6 +12,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/pastries")
 public class PastryController {
+
+    private static final Logger log = LoggerFactory.getLogger(PastryController.class);
 
     private final Map<String, Pastry> pastryStore = new HashMap<>();
 
@@ -24,6 +28,8 @@ public class PastryController {
 
     @GetMapping
     public ResponseEntity<List<Pastry>> getPastriesBySize(@RequestParam String size) {
+
+        log.info("Getting pastries by size {}", size);
         List<Pastry> filtered = pastryStore.values().stream()
                 .filter(p -> p.getSize().equalsIgnoreCase(size))
                 .collect(Collectors.toList());
@@ -32,6 +38,8 @@ public class PastryController {
 
     @GetMapping("/{name}")
     public ResponseEntity<Pastry> getPastryByName(@PathVariable String name) {
+
+        log.info("Getting pastry with name {}", name);
         Pastry pastry = pastryStore.get(name);
         if (pastry != null) {
             return ResponseEntity.ok(pastry);
@@ -41,6 +49,8 @@ public class PastryController {
 
     @PatchMapping("/{name}")
     public ResponseEntity<Pastry> patchPastry(@PathVariable String name, @RequestBody Pastry updated) {
+
+        log.info("Patching pastry with name {}", name);
         Pastry existing = pastryStore.get(name);
         if (existing == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
