@@ -24,6 +24,7 @@ public class PastryController {
         pastryStore.put("Eclair Cafe", new Pastry("Eclair Cafe", "Delicieux Eclair au Cafe pas calorique du tout", "M", 2.5, "available"));
         pastryStore.put("Baba Rhum", new Pastry("Baba Rhum", "Delicieux Baba au Rhum pas calorique du tout", "L", 3.2, "available"));
         pastryStore.put("Millefeuille", new Pastry("Millefeuille", "Delicieux Millefeuille pas calorique du tout", "L", 4.4, "available"));
+        pastryStore.put("Eclair Chocolat", new Pastry("Eclair Chocolat", "Delicieux Eclair au Cafe pas calorique du tout", "M", 2.5, "available"));
     }
 
     @GetMapping
@@ -32,7 +33,7 @@ public class PastryController {
         log.info("Getting pastries by size {}", size);
         List<Pastry> filtered = pastryStore.values().stream()
                 .filter(p -> p.getSize().equalsIgnoreCase(size))
-                .collect(Collectors.toList());
+                .toList();
         return ResponseEntity.ok(filtered);
     }
 
